@@ -1,0 +1,91 @@
+.categories-page {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.page-header h1 {
+  margin: 0;
+  font-size: 32px;
+}
+
+.page-header p {
+  color: #64748b;
+}
+
+.search-box {
+  background: white;
+  border-radius: 16px;
+  padding: 14px 18px;
+
+  display: flex;
+  align-items: center;
+  gap: 12px;
+
+  box-shadow: 0 1px 8px rgba(0, 0, 0, 0.05);
+}
+
+.search-box input {
+  border: none;
+  outline: none;
+  width: 100%;
+}
+
+.categories-grid {
+  display: grid;
+  grid-template-columns:
+    repeat(auto-fill, minmax(250px, 1fr));
+
+  gap: 24px;
+}
+
+.category-card {
+  background: white;
+
+  border-radius: 20px;
+
+  padding: 24px;
+
+  box-shadow: 0 1px 8px rgba(0,0,0,.05);
+
+  transition: .3s;
+}
+
+.category-card:hover {
+  transform: translateY(-5px);
+}
+
+.icon {
+  font-size: 36px;
+}
+
+.category-card h3 {
+  margin-top: 12px;
+  margin-bottom: 8px;
+}
+
+.category-card p {
+  color: #64748b;
+}
+
+.progress {
+  height: 8px;
+
+  background: #e2e8f0;
+
+  border-radius: 999px;
+
+  margin-top: 18px;
+}
+
+.progress-fill {
+  height: 100%;
+  background: #2563eb;
+  border-radius: 999px;
+}
+
+.category-card span {
+  display: block;
+  margin-top: 8px;
+  font-weight: 600;
+}

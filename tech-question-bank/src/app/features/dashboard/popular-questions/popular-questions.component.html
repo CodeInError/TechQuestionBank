@@ -1,0 +1,32 @@
+<div class="card">
+
+  <div class="header">
+
+    <h2>Popular Questions</h2>
+
+    <a>View All →</a>
+
+  </div>
+
+  <div
+    class="question"
+    *ngFor="let question of questions"
+  >
+
+    <div class="left">
+
+      <span class="fire">
+        🔥
+      </span>
+
+      {{ question.title }}
+
+    </div>
+
+    <span class="tag">
+      {{ question.tag }}
+    </span>
+
+  </div>
+
+</div>

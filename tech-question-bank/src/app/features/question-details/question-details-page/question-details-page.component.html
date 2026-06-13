@@ -1,0 +1,67 @@
+<div class="question-details">
+
+  <button class="back-btn">
+    ← Back
+  </button>
+
+  <h1>
+    {{ question.title }}
+  </h1>
+
+  <div class="tags">
+
+    <span class="category">
+      {{ question.category }}
+    </span>
+
+    <span class="difficulty">
+      {{ question.difficulty }}
+    </span>
+
+  </div>
+
+  <div class="card">
+
+    <h2>Answer</h2>
+
+    <p>
+      {{ question.answer }}
+    </p>
+
+  </div>
+
+  <div class="card">
+
+    <h2>Code Example</h2>
+
+    <pre>
+<code>{{ question.code }}</code>
+    </pre>
+
+  </div>
+
+  <div class="tip-card">
+
+    <h3>
+      💡 Interview Tip
+    </h3>
+
+    <p>
+      {{ question.tip }}
+    </p>
+
+  </div>
+
+  <div class="actions">
+
+    <button>
+      Share
+    </button>
+
+    <button>
+      Bookmark
+    </button>
+
+  </div>
+
+</div>

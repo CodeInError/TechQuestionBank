@@ -1,0 +1,43 @@
+<div class="section-header">
+
+  <h2>Categories</h2>
+
+  <a>View All →</a>
+
+</div>
+
+<div class="grid">
+
+  <div
+    class="category-card"
+    *ngFor="let category of categories"
+  >
+
+    <div class="icon">
+      {{ category.icon }}
+    </div>
+
+    <h3>
+      {{ category.name }}
+    </h3>
+
+    <p>
+      {{ category.questions }} Questions
+    </p>
+
+    <div class="progress">
+
+      <div
+        class="progress-fill"
+        [style.width.%]="category.progress"
+      ></div>
+
+    </div>
+
+    <span>
+      {{ category.progress }}%
+    </span>
+
+  </div>
+
+</div>

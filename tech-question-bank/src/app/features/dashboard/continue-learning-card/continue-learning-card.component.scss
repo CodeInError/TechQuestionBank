@@ -1,0 +1,50 @@
+.learning-card {
+  background: linear-gradient(
+    135deg,
+    #2563eb,
+    #3b82f6
+  );
+
+  color: white;
+
+  border-radius: 20px;
+
+  padding: 30px;
+}
+
+.progress-container {
+  height: 10px;
+
+  background: rgba(255,255,255,.3);
+
+  border-radius: 999px;
+
+  margin: 20px 0;
+}
+
+.progress-fill {
+  width: 70%;
+  height: 100%;
+
+  background: white;
+
+  border-radius: 999px;
+}
+
+.footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+button {
+  border: none;
+  background: white;
+  color: #2563eb;
+
+  border-radius: 12px;
+
+  padding: 10px 18px;
+
+  font-weight: 600;
+}

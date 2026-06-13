@@ -1,0 +1,32 @@
+<div class="card">
+
+  <div class="header">
+
+    <h2>Recent Activity</h2>
+
+    <a>View All →</a>
+
+  </div>
+
+  <div
+    class="activity"
+    *ngFor="let item of activities"
+  >
+
+    <div>
+
+      <span class="dot"></span>
+
+      {{ item.title }}
+
+    </div>
+
+    <span class="time">
+
+      {{ item.time }}
+
+    </span>
+
+  </div>
+
+</div>

@@ -1,0 +1,75 @@
+<div class="questions-page">
+
+  <div class="page-header">
+
+    <h1>Questions</h1>
+
+    <p>
+      Practice interview questions by category.
+    </p>
+
+  </div>
+
+  <div class="search-box">
+
+    <i class="pi pi-search"></i>
+
+    <input
+      type="text"
+      placeholder="Search questions..."
+    />
+
+  </div>
+
+  <div class="filter-row">
+
+    <button
+      *ngFor="let category of categories"
+      class="filter-btn"
+    >
+      {{ category }}
+    </button>
+
+  </div>
+
+  <div class="filter-row">
+
+    <button
+      *ngFor="let difficulty of difficulties"
+      class="difficulty-btn"
+    >
+      {{ difficulty }}
+    </button>
+
+  </div>
+
+  <div
+    class="question-card"
+    *ngFor="let question of questions"
+  >
+
+    <div>
+
+      <h3>
+        {{ question.title }}
+      </h3>
+
+      <div class="tags">
+
+        <span class="category">
+          {{ question.category }}
+        </span>
+
+        <span class="difficulty">
+          {{ question.difficulty }}
+        </span>
+
+      </div>
+
+    </div>
+
+    <i class="pi pi-bookmark"></i>
+
+  </div>
+
+</div>
