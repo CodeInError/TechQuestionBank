@@ -3,6 +3,7 @@ import { FormsModule } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { MessageService } from 'primeng/api';
 import { ToastModule } from 'primeng/toast';
+import { AuthService } from '../../../core/services/auth.service';
 
 @Component({
   selector: 'app-register',
@@ -19,10 +20,13 @@ import { ToastModule } from 'primeng/toast';
 export class RegisterComponent {
 
   constructor(
+    private authService: AuthService,
     private router: Router,
     private messageService: MessageService
   ) {}
-
+  name = '';
+  email = '';
+  password = '';
   confirmPassword = '';
 
   user = {
@@ -32,51 +36,75 @@ export class RegisterComponent {
     password: ''
   };
 
-  register() {
+ register() {
 
-    if (this.user.password !== this.confirmPassword) {
-      this.messageService.add({
-      severity: 'error',
-      summary: 'Registration Failed',
-      detail: 'Passwords do not match'
-    });
-      return;
-    }
+  console.log(this.user);
 
-    const users = JSON.parse(
-      localStorage.getItem('users') || '[]'
-    );
-
-    const existingUser = users.find(
-      (u: any) => u.email === this.user.email
-    );
-
-    if (existingUser) {
-      this.messageService.add({
-      severity: 'warn',
-      summary: 'User Exists',
-      detail: 'Email already registered'
-    });
-      return;
-    }
-
-    this.user.id = crypto.randomUUID();
-
-    users.push(this.user);
-
-    localStorage.setItem(
-      'users',
-      JSON.stringify(users)
-    );
+  if (!this.user.name ||!this.user.email ||!this.user.password) {
 
     this.messageService.add({
-      severity: 'success',
-      summary: 'Success',
-      detail: 'Registration completed successfully'
+      severity: 'warn',
+      summary: 'Validation',
+      detail: 'Please fill all fields'
     });
 
-    setTimeout(() => {
-      this.router.navigate(['/login']);
-    }, 1500);
+    return;
   }
+
+  if (this.user.password !== this.confirmPassword ) {
+
+    this.messageService.add({
+      severity: 'error',
+      summary: 'Error',
+      detail: 'Passwords do not match'
+    });
+
+    return;
+  }
+
+  this.authService.register(this.user.name,this.user.email,this.user.password)
+    .then((result) => {
+      this.user = {
+        id: '',
+        name: '',
+        email: '',
+        password: ''
+      };
+
+      this.confirmPassword = '';
+
+      this.messageService.add({
+        severity: 'success',
+        summary: 'Registration Successful',
+        detail: 'Account created successfully. Please login.'
+      });
+
+  setTimeout(() => {
+    this.router.navigate(['/login']);
+  }, 2000);
+
+})
+    .catch((error) => {
+
+  let message = 'Registration Failed';
+  switch (error.code) {
+    case 'auth/email-already-in-use':
+      message = 'Email already registered';
+      break;
+    case 'auth/weak-password':
+      message = 'Password should be at least 6 characters';
+      break;
+    case 'auth/invalid-email':
+      message = 'Invalid email address';
+      break;
+  }
+
+  this.messageService.add({
+    severity: 'error',
+    summary: 'Registration Failed',
+    detail: message
+  });
+
+});
+}
 }

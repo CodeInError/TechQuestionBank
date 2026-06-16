@@ -3,68 +3,116 @@ import { FormsModule } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { MessageService } from 'primeng/api';
 import { ToastModule } from 'primeng/toast';
+import { AuthService } from '../../../core/services/auth.service';
 
 @Component({
   selector: 'app-login',
-  imports: [RouterLink,
-  FormsModule,ToastModule],
+  standalone: true,
+  imports: [
+    RouterLink,
+    FormsModule,
+    ToastModule
+  ],
   providers: [MessageService],
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss'
 })
 export class LoginComponent {
-email = '';
-password = '';
 
-constructor(
-  private router: Router,
-  private messageService: MessageService
-) {}
+  email = '';
+  password = '';
 
-login() {
+  constructor(
+    private authService: AuthService,
+    private router: Router,
+    private messageService: MessageService
+  ) {}
 
-  const users = JSON.parse(
-    localStorage.getItem('users') || '[]'
-  );
+  login() {
 
-  const user = users.find(
-    (u: any) =>
-      u.email === this.email &&
-      u.password === this.password
-  );
+    if (!this.email || !this.password) {
 
-  if (user) {
+      this.messageService.add({
+        severity: 'warn',
+        summary: 'Validation',
+        detail: 'Please enter email and password'
+      });
 
-    localStorage.setItem(
-      'currentUser',
-      JSON.stringify(user)
-    );
+      return;
+    }
 
-    localStorage.setItem(
-      'isLoggedIn',
-      'true'
-    );
+    this.authService
+      .login(
+        this.email,
+        this.password
+      )
+      .then((result) => {
 
-    this.messageService.add({
-      severity: 'success',
-      summary: 'Welcome',
-      detail: 'Login successful'
-    });
+        localStorage.setItem(
+          'currentUser',
+          JSON.stringify({
+            uid: result.user.uid,
+            name: result.user.displayName,
+            email: result.user.email,
+            photoURL: result.user.photoURL
+          })
+        );
 
-    setTimeout(() => {
-      this.router.navigate(['/dashboard']);
-    }, 1000);
+        this.messageService.add({
+          severity: 'success',
+          summary: 'Welcome',
+          detail: 'Login Successful'
+        });
 
-  } else {
+        setTimeout(() => {
+          this.router.navigate(['/dashboard']);
+        }, 1000);
 
-    this.messageService.add({
-    severity: 'error',
-    summary: 'Login Failed',
-    detail: 'Invalid email or password'
-});
+      })
+      .catch((error) => {
 
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Login Failed',
+          detail: error.message
+        });
+
+      });
   }
 
-}
+  loginWithGoogle() {
 
+    this.authService
+      .googleLogin()
+      .then((result) => {
+
+        localStorage.setItem(
+          'currentUser',
+          JSON.stringify({
+            uid: result.user.uid,
+            name: result.user.displayName,
+            email: result.user.email,
+            photoURL: result.user.photoURL
+          })
+        );
+
+        this.messageService.add({
+          severity: 'success',
+          summary: 'Success',
+          detail: 'Google Login Successful'
+        });
+
+        this.router.navigate(['/dashboard']);
+
+      })
+      .catch((error) => {
+
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Google Login Failed',
+          detail: error.message
+        });
+
+      });
+  }
 }
