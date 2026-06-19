@@ -1,50 +1,95 @@
 <header class="header">
-  <p-confirmDialog></p-confirmDialog>
 
-  <!-- Search -->
+  <p-confirmDialog></p-confirmDialog>
 
   <div class="search">
     <i class="pi pi-search"></i>
-    <input type="text" placeholder="Search questions, topics..." />
+    <input
+      type="text"
+      placeholder="Search questions, topics..."
+    />
   </div>
 
-  <!-- Right Side -->
-
   <div class="header-right">
+
     <i class="pi pi-bell notification-icon"></i>
-    <!-- Profile -->
+
     <div class="profile-container">
-      <div class="profile" (click)="toggleDropdown()">
-        <img src="https://i.pravatar.cc/150" alt="profile" />
+
+      <div
+        class="profile"
+        (click)="toggleDropdown()">
+
+        <img
+          src="https://i.pravatar.cc/150"
+          alt="profile"
+        />
+
         <div class="profile-info">
+
           <div class="name">
             {{ currentUser?.fullName || currentUser?.name || 'User' }}
           </div>
-          <div class="subtitle">
-            Software Developer
+
+          @if(role === 'admin') {
+          <div class="subtitle admin-role">
+            👑 Admin
           </div>
+          } @else {
+            <div class="subtitle user-role">
+              Software Developer
+            </div>
+          }
         </div>
+
         <i class="pi pi-angle-down"></i>
+
       </div>
 
       @if(showDropdown){
+
       <div class="dropdown-menu">
-        <div class="dropdown-item" routerLink="/profile">
+
+        <div
+          class="dropdown-item"
+          routerLink="/profile">
+
           <i class="pi pi-user"></i>
+
           <span>My Profile</span>
+
         </div>
-        <div class="dropdown-item" routerLink="/settings">
+
+        <div
+          class="dropdown-item"
+          routerLink="/settings">
+
           <i class="pi pi-cog"></i>
+
           <span>Settings</span>
+
         </div>
+
         <div class="divider"></div>
-        <div class="dropdown-item logout" (click)="logout()">
+
+        <div
+          class="dropdown-item logout"
+          (click)="logout()">
+
           <i class="pi pi-sign-out"></i>
+
           <span>Logout</span>
+
         </div>
+
       </div>
+
       }
+
     </div>
+
   </div>
+
 </header>
+
 <p-toast position="top-right"></p-toast>

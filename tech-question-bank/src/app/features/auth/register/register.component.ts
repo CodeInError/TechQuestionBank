@@ -64,6 +64,16 @@ export class RegisterComponent {
 
   this.authService.register(this.user.name,this.user.email,this.user.password)
     .then((result) => {
+      const role =
+        this.user.email === 'admin@gmail.com'
+          ? 'admin'
+          : 'user';
+
+      localStorage.setItem(
+        'userRole',
+        role
+      );
+
       this.user = {
         id: '',
         name: '',
@@ -71,19 +81,19 @@ export class RegisterComponent {
         password: ''
       };
 
-      this.confirmPassword = '';
+  this.confirmPassword = '';
 
-      this.messageService.add({
-        severity: 'success',
-        summary: 'Registration Successful',
-        detail: 'Account created successfully. Please login.'
-      });
+  this.messageService.add({
+    severity: 'success',
+    summary: 'Registration Successful',
+    detail: 'Account created successfully. Please login.'
+  });
 
   setTimeout(() => {
     this.router.navigate(['/login']);
   }, 2000);
 
-})
+    })
     .catch((error) => {
 
   let message = 'Registration Failed';

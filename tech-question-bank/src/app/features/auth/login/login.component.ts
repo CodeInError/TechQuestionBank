@@ -4,6 +4,7 @@ import { Router, RouterLink } from '@angular/router';
 import { MessageService } from 'primeng/api';
 import { ToastModule } from 'primeng/toast';
 import { AuthService } from '../../../core/services/auth.service';
+import { ADMIN_USERS } from '../../../core/constants/admin-users';
 
 @Component({
   selector: 'app-login',
@@ -48,27 +49,41 @@ export class LoginComponent {
       )
       .then((result) => {
 
-        localStorage.setItem(
-          'currentUser',
-          JSON.stringify({
-            uid: result.user.uid,
-            name: result.user.displayName,
-            email: result.user.email,
-            photoURL: result.user.photoURL
-          })
-        );
+  const email =
+    result.user.email?.toLowerCase() || '';
 
-        this.messageService.add({
-          severity: 'success',
-          summary: 'Welcome',
-          detail: 'Login Successful'
-        });
+  const role =
+    ADMIN_USERS.includes(email)
+      ? 'admin'
+      : 'user';
 
-        setTimeout(() => {
-          this.router.navigate(['/dashboard']);
-        }, 1000);
+  localStorage.setItem(
+    'currentUser',
+    JSON.stringify({
+      uid: result.user.uid,
+      name: result.user.displayName,
+      email: result.user.email,
+      photoURL: result.user.photoURL,
+      role: role
+    })
+  );
 
-      })
+  localStorage.setItem(
+    'userRole',
+    role
+  );
+
+  this.messageService.add({
+    severity: 'success',
+    summary: 'Welcome',
+    detail: 'Login Successful'
+  });
+
+  setTimeout(() => {
+    this.router.navigate(['/dashboard']);
+  }, 1000);
+
+})
       .catch((error) => {
 
         this.messageService.add({
@@ -86,25 +101,39 @@ export class LoginComponent {
       .googleLogin()
       .then((result) => {
 
-        localStorage.setItem(
-          'currentUser',
-          JSON.stringify({
-            uid: result.user.uid,
-            name: result.user.displayName,
-            email: result.user.email,
-            photoURL: result.user.photoURL
-          })
-        );
+      const email =
+        result.user.email?.toLowerCase() || '';
 
-        this.messageService.add({
-          severity: 'success',
-          summary: 'Success',
-          detail: 'Google Login Successful'
-        });
+      const role =
+        ADMIN_USERS.includes(email)
+          ? 'admin'
+          : 'user';
 
-        this.router.navigate(['/dashboard']);
+      localStorage.setItem(
+        'currentUser',
+        JSON.stringify({
+          uid: result.user.uid,
+          name: result.user.displayName,
+          email: result.user.email,
+          photoURL: result.user.photoURL,
+          role: role
+        })
+      );
 
-      })
+      localStorage.setItem(
+        'userRole',
+        role
+      );
+
+      this.messageService.add({
+        severity: 'success',
+        summary: 'Success',
+        detail: 'Google Login Successful'
+      });
+
+  this.router.navigate(['/dashboard']);
+
+})
       .catch((error) => {
 
         this.messageService.add({
